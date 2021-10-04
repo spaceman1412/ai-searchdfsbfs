@@ -12,6 +12,7 @@ It is demonstrated in the __main__ part (line 156).
 
 import sys
 from collections import deque
+import itertools
 
 
 class Node:
@@ -101,18 +102,22 @@ def depth_limited_search(problem, limit=50):
         explored.add(node.state)
         if problem.goal_test(node.state):
             return node
-        for child in node.expand(problem)[::-1]:
-            if child.state not in explored:
-                frontier.append(child)
-                explored.add(child.state)
+        if(node.depth < limit):
+            for child in node.expand(problem)[::-1]:
+                if child.state not in explored:
+                    frontier.append(child)
+                    explored.add(child.state)
     return None
 
 
 ''' IMPLEMENT THE FOLLOWING FUNCTION '''
 
 
-def iterative_deepening_search(problem):
-    """See [Figure 3.18] for the algorithm"""
+def iterative_deepening_search(problem, limit=50):
+    for i in range(limit):
+        if(depth_limited_search(problem)):
+            return True
+    return False
 
 
 class EightPuzzleProblem:
@@ -187,3 +192,9 @@ if __name__ == '__main__':
     # USE BELOW CODE TO TEST YOUR IMPLEMENTED FUNCTIONS
     result2 = depth_limited_search(problem)
     print(result2.solution())
+
+    result2 = iterative_deepening_search(problem)
+    if(result2):
+        print("Reached")
+    else:
+        print("Not reached")
