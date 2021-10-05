@@ -115,7 +115,7 @@ def depth_limited_search(problem, limit=50):
 
 def iterative_deepening_search(problem, limit=50):
     for i in range(limit):
-        if(depth_limited_search(problem)):
+        if(depth_limited_search(problem,i)):
             return True
     return False
 
